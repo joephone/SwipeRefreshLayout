@@ -2,6 +2,7 @@ package com.demievil.swiperefreshlayout;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,10 +11,11 @@ import android.view.ViewConfiguration;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
-public class RefreshLayout extends SwipeRefreshLayout {
+public class MyRefreshOnLoadLayout extends SwipeRefreshLayout {
 
     private int mTouchSlop;
     private ListView mListView;
+    private RecyclerView rv;
     private OnLoadListener mOnLoadListener;
     private View mListViewFooter;
 
@@ -22,11 +24,11 @@ public class RefreshLayout extends SwipeRefreshLayout {
 
     private boolean isLoading = false;
 
-    public RefreshLayout(Context context) {
+    public MyRefreshOnLoadLayout(Context context) {
         this(context, null);
     }
 
-    public RefreshLayout(Context context, AttributeSet attrs) {
+    public MyRefreshOnLoadLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -39,6 +41,8 @@ public class RefreshLayout extends SwipeRefreshLayout {
         mListView.setFooterDividersEnabled(false);
         this.mListView = mListView;
     }
+
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -117,7 +121,7 @@ public class RefreshLayout extends SwipeRefreshLayout {
         mOnLoadListener = loadListener;
     }
 
-    public static interface OnLoadListener {
-        public void onLoad();
+    public interface OnLoadListener {
+        void onLoad();
     }
 }

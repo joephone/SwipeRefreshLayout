@@ -1,4 +1,4 @@
-<com.demievil.swiperefreshlayout.RefreshLayout
+<com.demievil.swiperefreshlayout.MyRefreshOnLoadLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_container"
@@ -12,4 +12,4 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:dividerHeight="1px" />
-</com.demievil.swiperefreshlayout.RefreshLayout>
+</com.demievil.swiperefreshlayout.MyRefreshOnLoadLayout>

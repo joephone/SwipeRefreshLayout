@@ -7,9 +7,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MyRefreshOnLoadLayout.OnRefreshListener,MyRefreshOnLoadLayout.OnLoadListener {
 
-    private RefreshLayout mRefreshLayout;
+    private MyRefreshOnLoadLayout mRefreshLayout;
     private ListView mListView;
     private ArrayAdapter<String> mArrayAdapter;
     private ArrayList<String> values;
@@ -19,9 +19,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRefreshLayout = (RefreshLayout) findViewById(R.id.swipe_container);
+        mRefreshLayout = (MyRefreshOnLoadLayout) findViewById(R.id.swipe_container);
         mListView = (ListView) findViewById(R.id.list);
-        mRefreshLayout.setFooterView(this, mListView, R.layout.listview_footer);
+        mRefreshLayout.setFooterView(this, mListView, R.layout.my_refresh_onload_footer_view_one);    //listview_footer
 
         values = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
@@ -35,32 +35,31 @@ public class MainActivity extends ActionBarActivity {
                 R.color.google_red,
                 R.color.google_yellow);
 
-        mRefreshLayout.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setOnLoadListener(this);
+    }
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        values.add(0, "Swipe Down to Refresh " + values.size());
-                        mArrayAdapter.notifyDataSetChanged();
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-        mRefreshLayout.setOnLoadListener(new RefreshLayout.OnLoadListener() {
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onLoad() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        values.add("Swipe Up to Load More "+ values.size());
-                        mArrayAdapter.notifyDataSetChanged();
-                        mRefreshLayout.setLoading(false);
-                    }
-                }, 2000);
+            public void run() {
+                values.add(0, "Swipe Down to Refresh " + values.size());
+                mArrayAdapter.notifyDataSetChanged();
+                mRefreshLayout.setRefreshing(false);
             }
-        });
+        }, 2000);
+    }
+
+    @Override
+    public void onLoad() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                values.add("Swipe Up to Load More "+ values.size());
+                mArrayAdapter.notifyDataSetChanged();
+                mRefreshLayout.setLoading(false);
+            }
+        }, 2000);
     }
 }
